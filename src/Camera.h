@@ -4,10 +4,13 @@
 #include <cstdint>
 #include <vector>
 #include <boost/asio.hpp>
+#include "Configuration.h"
 
 class Camera {
 public:
-    Camera(std::string name, std::string ip_address, uint8_t default_preset, boost::asio::io_service &io_service);
+    Camera(const CameraDetails &details, boost::asio::io_service &io_service);
+
+    Camera(Camera &&other) = default;
 
     ~Camera();
 
@@ -51,10 +54,6 @@ public:
 
     inline std::string name() const {
         return _name;
-    }
-
-    inline std::string address() const {
-	return _address;
     }
 
     static inline uint8_t pan_max() {
