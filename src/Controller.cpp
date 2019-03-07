@@ -15,7 +15,7 @@ void Controller::update() {
     if(_joystick != nullptr && _camera != nullptr) {
         _joystick->update();
 
-        axis_control();
+        attempt_axis_control();
 
         button_control();
 
@@ -29,6 +29,18 @@ void Controller::change_joystick(std::shared_ptr<Joystick> joystick) {
 
 void Controller::chage_camera(std::shared_ptr<Camera> camera) {
     _camera = camera;
+}
+
+void Controller::attempt_axis_control() {
+    // Emergency stop button
+    if(_joystick->button(0)){
+        _camera->stop();
+        if (!_prev_button[0]) {
+            cout << setw(12) << _camera->name() << "\tStop\n";
+        }
+    } else {
+        axis_control();
+    }
 }
 
 void Controller::axis_control() {
@@ -102,12 +114,6 @@ void Controller::button_control() {
         _camera->reconnect();
         cout << "*** reinit camera: " << _camera->name() << " complete!\n";
 	return;
-    }
-
-    // Emergency stop button
-    if(_joystick->button(0) && !_prev_button[0]){
-        _camera->stop();
-        cout << setw(12) << _camera->name() << "\tStop\n";
     }
 
     // Go to a preset (button pressed down)
