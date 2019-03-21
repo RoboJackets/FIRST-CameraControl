@@ -33,14 +33,12 @@ void Controller::chage_camera(std::shared_ptr<Camera> camera) {
 
 void Controller::attempt_axis_control() {
     // Emergency stop button
-    if(_joystick->button(0)){
+    if(_joystick->button(0) && !_prev_button[0]) {
         _camera->stop();
-        if (!_prev_button[0]) {
-            cout << setw(12) << _camera->name() << "\tStop\n";
-            _prev_pan = 0;
-            _prev_tilt = 0;
-            _prev_speed = 0;
-        }
+        cout << setw(12) << _camera->name() << "\tStop\n";
+        _prev_pan = 0;
+        _prev_tilt = 0;
+        _prev_speed = 0;
     } else {
         axis_control();
     }
