@@ -37,6 +37,9 @@ void Controller::attempt_axis_control() {
         _camera->stop();
         if (!_prev_button[0]) {
             cout << setw(12) << _camera->name() << "\tStop\n";
+            _prev_pan = 0;
+            _prev_tilt = 0;
+            _prev_speed = 0;
         }
     } else {
         axis_control();
