@@ -30,6 +30,8 @@ private:
 
     std::array<bool,12> _prev_button;
 
+    void attempt_axis_control();
+
     void axis_control();
 
     void button_control();
